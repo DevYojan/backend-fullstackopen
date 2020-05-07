@@ -51,6 +51,11 @@ let persons = [
 	},
 ];
 
+const generateID = () => {
+	const newID = Math.random() * 100000000;
+	return Math.floor(newID);
+};
+
 app.get('/info', (req, res) => {
 	const personsLength = persons.length;
 	const summary = `Phonebook has info for ${personsLength} people.<br>${new Date()}`;
@@ -76,6 +81,26 @@ app.delete('/api/persons/:id', (req, res) => {
 	const id = +req.params.id;
 	persons = persons.filter((person) => person.id !== id);
 	res.status(204).end();
+});
+
+app.post('/api/persons', (req, res) => {
+	const body = req.body;
+
+	if (!body.content) {
+		return res.status(400).json({
+			error: 'content missing',
+		});
+	}
+
+	const newPerson = {
+		content: body.content,
+		important: body.important || false,
+		date: new Date(),
+		id: generateID(),
+	};
+
+	persons = persons.concat(newPerson);
+	res.json(newPerson);
 });
 
 app.listen(PORT);
