@@ -56,6 +56,17 @@ const generateID = () => {
 	return Math.floor(newID);
 };
 
+const checkNameIsUnique = (name) => {
+	const result = persons.find(
+		(person) => person.name.toLowerCase() === name.toLowerCase()
+	);
+	if (result) {
+		return false;
+	}
+
+	return true;
+};
+
 app.get('/info', (req, res) => {
 	const personsLength = persons.length;
 	const summary = `Phonebook has info for ${personsLength} people.<br>${new Date()}`;
@@ -84,17 +95,29 @@ app.delete('/api/persons/:id', (req, res) => {
 });
 
 app.post('/api/persons', (req, res) => {
-	const body = req.body;
+	const person = req.body;
 
-	if (!body.content) {
+	if (!person.name) {
 		return res.status(400).json({
-			error: 'content missing',
+			error: 'name missing',
+		});
+	}
+
+	if (!person.number) {
+		return res.status(400).json({
+			error: 'number missing',
+		});
+	}
+
+	if (!checkNameIsUnique(person.name)) {
+		res.status(400).json({
+			error: 'name must be unique',
 		});
 	}
 
 	const newPerson = {
-		content: body.content,
-		important: body.important || false,
+		name: person.name,
+		number: person.number,
 		date: new Date(),
 		id: generateID(),
 	};
