@@ -3,7 +3,17 @@ const morgan = require('morgan');
 const app = express();
 
 app.use(express.json());
-app.use(morgan('tiny'));
+
+morgan.token('body', function (req) {
+	if (req.method !== 'POST') {
+		return null;
+	}
+	return JSON.stringify(req.body);
+});
+
+app.use(
+	morgan(':method :url :status :res[content-length] - :response-time ms :body')
+);
 
 const PORT = 3001;
 let persons = [
