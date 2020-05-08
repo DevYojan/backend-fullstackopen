@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 morgan.token('body', function (req) {
 	if (req.method !== 'POST') {
@@ -15,7 +17,7 @@ app.use(
 	morgan(':method :url :status :res[content-length] - :response-time ms :body')
 );
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 let persons = [
 	{
 		name: 'Barbara Deleon',
