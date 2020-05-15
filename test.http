@@ -20,3 +20,6 @@ Content-Type: application/json
   "name": "yojan regmi",
   "number": 5555555555
 }
+
+###
+GET http://localhost:3001/api/persons/5ebeae940e8c2854eca7cbec

@@ -45,15 +45,16 @@ app.get('/api/persons', (req, res) => {
 	});
 });
 
-app.get('/api/persons/:id', (req, res) => {
-	const id = +req.params.id;
-	const person = persons.find((person) => person.id === id);
+app.get('/api/persons/:id', (req, res, next) => {
+	Person.findById(req.params.id)
+		.then((result) => {
+			if (!result) {
+				return res.status(404).end();
+			}
 
-	if (!person) {
-		return res.status(404).end();
-	}
-
-	res.json(person);
+			res.send(result.toJSON());
+		})
+		.catch((err) => next(err));
 });
 
 app.delete('/api/persons/:id', (req, res, next) => {
@@ -82,12 +83,6 @@ app.post('/api/persons', (req, res) => {
 			error: 'number missing',
 		});
 	}
-
-	// if (!checkNameIsUnique(person.name)) {
-	// 	res.status(400).json({
-	// 		error: 'name must be unique',
-	// 	});
-	// }
 
 	const newPerson = new Person({
 		name: person.name,
