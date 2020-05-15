@@ -8,3 +8,15 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3001/api/persons
+
+###
+DELETE http://localhost:3001/api/persons/how/5ebc983b63eeb44f2650422c
+
+###
+PUT http://localhost:3001/api/persons/5ebea97bfedd574bce121cfb
+Content-Type: application/json
+
+{
+  "name": "yojan regmi",
+  "number": 5555555555
+}

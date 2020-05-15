@@ -21,53 +21,6 @@ app.use(
 );
 
 const PORT = process.env.PORT;
-let persons = [
-	{
-		name: 'Barbara Deleon',
-		number: '16',
-		id: 1,
-	},
-	{
-		name: 'adf',
-		number: 'adfdf',
-		id: 4,
-	},
-	{
-		name: 'jhapa',
-		number: '444',
-		id: 5,
-	},
-	{
-		name: 'larave',
-		number: '5544',
-		id: 6,
-	},
-	{
-		name: 'bhatij',
-		number: '4544',
-		id: 7,
-	},
-	{
-		name: 'yaaa',
-		number: '3454',
-		id: 8,
-	},
-	{
-		name: 'kkl',
-		number: '3433',
-		id: 9,
-	},
-	{
-		name: 'addssds`23`',
-		number: 'q345435',
-		id: 10,
-	},
-	{
-		name: 'adfsf',
-		number: '34534435',
-		id: 11,
-	},
-];
 
 const checkNameIsUnique = (name) => {
 	const result = persons.find(
@@ -103,10 +56,16 @@ app.get('/api/persons/:id', (req, res) => {
 	res.json(person);
 });
 
-app.delete('/api/persons/:id', (req, res) => {
-	const id = +req.params.id;
-	persons = persons.filter((person) => person.id !== id);
-	res.status(204).end();
+app.delete('/api/persons/:id', (req, res, next) => {
+	Person.findByIdAndDelete(req.params.id)
+		.then((result) => {
+			if (!result) {
+				return res.status(404).end();
+			}
+
+			res.status(204).end();
+		})
+		.catch((err) => next(err));
 });
 
 app.post('/api/persons', (req, res) => {
@@ -141,4 +100,27 @@ app.post('/api/persons', (req, res) => {
 	});
 });
 
-app.listen(PORT);
+app.put('/api/persons/:id', (req, res, next) => {
+	const body = req.body;
+
+	Person.findByIdAndUpdate(req.params.id, { $set: body }, { new: true })
+		.then((result) => {
+			res.json(result.toJSON());
+		})
+		.catch((err) => next(err));
+});
+
+app.use((err, req, res, next) => {
+	if (err.name === 'CastError') {
+		return res.status(400).send({ error: 'Malformatted id' });
+	}
+	next(err);
+});
+
+app.use((req, res) => {
+	res.status(404).send({ error: 'Unknown endpoint' });
+});
+
+app.listen(PORT, () => {
+	console.log('Listening on port', PORT);
+});
