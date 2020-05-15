@@ -23,3 +23,6 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3001/api/persons/5ebeae940e8c2854eca7cbec
+
+###
+GET http://localhost:3001/info

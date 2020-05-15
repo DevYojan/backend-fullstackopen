@@ -34,9 +34,11 @@ const checkNameIsUnique = (name) => {
 };
 
 app.get('/info', (req, res) => {
-	const personsLength = persons.length;
-	const summary = `Phonebook has info for ${personsLength} people.<br>${new Date()}`;
-	res.send(summary);
+	// const personsLength = persons.length;
+	// const summary = `Phonebook has info for ${personsLength} people.<br>${new Date()}`;
+	Person.find({}, (err, docs) => {
+		res.send(`Phonebook has info for ${docs.length} people.<br>${new Date()}`);
+	});
 });
 
 app.get('/api/persons', (req, res) => {
