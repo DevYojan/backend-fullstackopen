@@ -95,7 +95,7 @@ app.post('/api/persons', (req, res, next) => {
 	newPerson
 		.save()
 		.then((savedPerson) => {
-			res.json(savedPerson.toJSON());
+			res.status(201).json(savedPerson.toJSON());
 		})
 		.catch((err) => next(err));
 });
@@ -113,8 +113,6 @@ app.put('/api/persons/:id', (req, res, next) => {
 		}
 	)
 		.then((result) => {
-			console.log(result);
-
 			res.json(result.toJSON());
 		})
 		.catch((err) => next(err));
@@ -126,7 +124,7 @@ app.use((err, req, res, next) => {
 	}
 
 	if (err.name === 'ValidationError') {
-		return res.status(400).send({ error: err.message });
+		return res.status(400).json({ error: err.message });
 	}
 
 	next(err);

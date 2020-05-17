@@ -17,10 +17,12 @@ const personSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 		uniqueCaseInsensitive: true,
+		minlength: 3,
 	},
 	number: {
 		type: Number,
 		required: true,
+		min: 10000000,
 	},
 });
 

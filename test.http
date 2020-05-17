@@ -2,8 +2,8 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-  "name": "regmi",
-  "number": "0528706740"
+  "name": "thisldkfkd",
+  "number": 12
 }
 
 ###
@@ -17,8 +17,8 @@ PUT http://localhost:3001/api/persons/5ebeafecc2dee157a532ef35
 Content-Type: application/json
 
 {
-  "name": "Yojan",
-  "number": 5555555555
+  "name": "regmi",
+  "number": 5555
 }
 
 ###
