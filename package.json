@@ -9,7 +9,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build:ui": "rm -rf build && cd ../phonebook && npm run build --prod && cp -r build ../backend-fullstackopen",
 		"deploy": "git push heroku master",
-		"deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
+		"deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
+		"lint": "eslint ."
 	},
 	"author": "Yojan Regmi",
 	"license": "MIT",
@@ -22,6 +23,12 @@
 		"morgan": "^1.10.0"
 	},
 	"devDependencies": {
+		"eslint": "^6.8.0",
+		"eslint-config-airbnb": "^18.1.0",
+		"eslint-plugin-import": "^2.20.2",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-react": "^7.20.0",
+		"eslint-plugin-react-hooks": "^2.5.0",
 		"nodemon": "^2.0.3"
 	}
 }

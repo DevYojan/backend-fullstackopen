@@ -8,7 +8,7 @@ mongoose
 		useFindAndModify: false,
 		useCreateIndex: true,
 	})
-	.then((result) => console.log('Connected to database'))
+	.then(() => console.log('Connected to database'))
 	.catch((err) => console.log('Error Connecting to database: ', err));
 
 const personSchema = new mongoose.Schema({

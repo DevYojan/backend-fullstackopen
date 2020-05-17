@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+
 const app = express();
 const Person = require('./models/person');
 
@@ -9,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static('build'));
 
-morgan.token('body', function (req) {
+morgan.token('body', (req) => {
 	if (req.method !== 'POST') {
 		return null;
 	}
@@ -21,17 +22,6 @@ app.use(
 );
 
 const PORT = process.env.PORT;
-
-const checkNameIsUnique = (name) => {
-	const result = persons.find(
-		(person) => person.name.toLowerCase() === name.toLowerCase()
-	);
-	if (result) {
-		return false;
-	}
-
-	return true;
-};
 
 app.get('/info', (req, res) => {
 	// const personsLength = persons.length;
